@@ -1,50 +1,59 @@
-const core = require('@actions/core');
+const core = require("@actions/core")
 
-const {readInputParameters} = require('../src/validation');
-const {initClient} = require('../src/api');
-const {getOpenPR, updatePR, createPR, mergePR} = require('../src/pr');
+const { readInputParameters } = require("../src/validation")
+const { initClient } = require("../src/api")
+const { getOpenPR, updatePR, createPR, mergePR } = require("../src/pr")
 
 const inputParameters = {
-    token: 'look-for-a-valid-token',
-    prFromBranch: 'feature/test',
-    prToBranch: 'develop',
-    prTitle: '',
-    prBody: '',
-    prFailIfExists: false,
-    prUpdateIfExists: true,
-    maintainerCanModify: true,
-    draft: false,
-    mergePRAfterCreated: true,
-    mergeCommitTitle: '',
-    mergeCommitBody: '',
-    mergeMethod: 'squash'
-};
+  token: "look-for-a-valid-token",
+  prFromBranch: "feature/test",
+  prToBranch: "develop",
+  prTitle: "",
+  prBody: "",
+  prFailIfExists: false,
+  prUpdateIfExists: true,
+  maintainerCanModify: true,
+  draft: false,
+  mergePRAfterCreated: true,
+  mergeCommitTitle: "",
+  mergeCommitBody: "",
+  mergeMethod: "squash",
+}
 
-const fakeOwner = 'cristiammercado';
-const fakeRepo = 'test';
+const fakeOwner = "cristiammercado"
+const fakeRepo = "test"
 
-test('Validate draft and automatic merge input values', () => {
-    expect(() => readInputParameters({
-        prUpdateState: 'open',
-        maintainerCanModify: true,
-        draft: true,
-        mergePRAfterCreated: true,
-        mergeCommitTitle: 'any',
-        mergeCommitBody: 'any'
-    })).toThrow(`Cannot set 'draft' with value true and 'merge-pr-after-created' with value true: It's not possible to merge a PR draft`);
-});
+test("Validate draft and automatic merge input values", () => {
+  expect(() =>
+    readInputParameters({
+      prUpdateState: "open",
+      maintainerCanModify: true,
+      draft: true,
+      mergePRAfterCreated: true,
+      mergeCommitTitle: "any",
+      mergeCommitBody: "any",
+    })
+  ).toThrow(
+    `Cannot set 'draft' with value true and 'merge-pr-after-created' with value true: It's not possible to merge a PR draft`
+  )
+})
 
-test('Validate merge method for automatic merge input value', () => {
-    expect(() => readInputParameters({
-        prUpdateState: 'open',
-        maintainerCanModify: true,
-        mergePRAfterCreated: true,
-        mergeCommitTitle: 'any',
-        mergeCommitBody: 'any',
-        mergeMethod: 'any'
-    })).toThrow(`'merge-method' doesn't have a valid value: any. Valid values are merge, squash, rebase`);
-});
+test("Validate merge method for automatic merge input value", () => {
+  expect(() =>
+    readInputParameters({
+      prUpdateState: "open",
+      maintainerCanModify: true,
+      mergePRAfterCreated: true,
+      mergeCommitTitle: "any",
+      mergeCommitBody: "any",
+      mergeMethod: "any",
+    })
+  ).toThrow(
+    `'merge-method' doesn't have a valid value: any. Valid values are merge, squash, rebase`
+  )
+})
 
+/*
 test.skip('Full flow', async () => {
 
     // Read input parameters from workflow
@@ -96,3 +105,4 @@ test.skip('Full flow', async () => {
     expect(pr.html_url).toBeDefined();
     expect(sha).toBeDefined();
 });
+*/
